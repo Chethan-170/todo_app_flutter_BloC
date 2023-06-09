@@ -24,13 +24,19 @@ class FilteredTodoCubitCubit extends Cubit<FilteredTodoCubitState> {
     required this.todoSearchCubit,
   }) : super(FilteredTodoCubitState.initial()) {
     todoListSubscription =
-        todoListCubit.stream.listen((TodoListState todoListState) {});
+        todoListCubit.stream.listen((TodoListState todoListState) {
+      setFilteredTodos();
+    });
 
     todoFilterSubscription =
-        todoFilterCubit.stream.listen((TodoFilterState todoFilterState) {});
+        todoFilterCubit.stream.listen((TodoFilterState todoFilterState) {
+      setFilteredTodos();
+    });
 
     todoSearchSubscription =
-        todoSearchCubit.stream.listen((TodoSearchState todoSearchState) {});
+        todoSearchCubit.stream.listen((TodoSearchState todoSearchState) {
+      setFilteredTodos();
+    });
   }
 
   void setFilteredTodos() {
@@ -59,5 +65,13 @@ class FilteredTodoCubitCubit extends Cubit<FilteredTodoCubitState> {
           .toList();
     }
     emit(state.copyWith(filteredTodos));
+  }
+
+  @override
+  Future<void> close() {
+    todoListSubscription.cancel();
+    todoFilterSubscription.cancel();
+    todoSearchSubscription.cancel();
+    return super.close();
   }
 }
