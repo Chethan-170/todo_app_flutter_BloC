@@ -18,7 +18,6 @@ class _TodoItemState extends State<TodoItem> {
       leading: Checkbox(
         value: widget.todo.completed,
         onChanged: (bool? checked) {
-          print('$checked -- checked');
           context.read<TodoListCubit>().toggleTodo(widget.todo.id);
         },
       ),

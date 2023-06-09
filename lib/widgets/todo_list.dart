@@ -17,10 +17,7 @@ class TodoList extends StatelessWidget {
       child: ListView.separated(
         itemCount: todos.length,
         separatorBuilder: (context, index) {
-          return Divider(
-            color: Colors.grey,
-            height: 1.0,
-          );
+          return Divider(color: Colors.grey);
         },
         itemBuilder: (BuildContext context, int index) {
           final Todo todo = todos[index];
