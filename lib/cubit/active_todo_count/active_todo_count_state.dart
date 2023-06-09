@@ -1,23 +1,22 @@
 part of 'active_todo_count_cubit.dart';
 
 class ActiveTodoCountState extends Equatable {
-  final int activeTodoCountState;
+  final int activeTodoCount;
 
-  ActiveTodoCountState({this.activeTodoCountState = 0});
+  ActiveTodoCountState({this.activeTodoCount = 0});
 
   factory ActiveTodoCountState.initial() {
-    return ActiveTodoCountState(activeTodoCountState: 0);
+    return ActiveTodoCountState(activeTodoCount: 0);
   }
 
   ActiveTodoCountState copyWith(int? count) {
-    return ActiveTodoCountState(
-        activeTodoCountState: count ?? this.activeTodoCountState);
+    return ActiveTodoCountState(activeTodoCount: count ?? this.activeTodoCount);
   }
 
   @override
-  List<Object?> get props => [ActiveTodoCountState];
+  List<Object?> get props => [activeTodoCount];
 
   @override
   String toString() =>
-      "ActiveTodoCountState(ActiveTodoCountState: $ActiveTodoCountState)";
+      "ActiveTodoCountState(activeTodoCount: $activeTodoCount)";
 }

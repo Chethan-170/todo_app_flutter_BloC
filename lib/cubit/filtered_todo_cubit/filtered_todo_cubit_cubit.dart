@@ -9,7 +9,8 @@ import 'package:todo_app_flutter_bloc/models/todo_model.dart';
 
 part 'filtered_todo_cubit_state.dart';
 
-class FilteredTodoCubitCubit extends Cubit<FilteredTodoCubitState> {
+class FilteredTodoCubit extends Cubit<FilteredTodoCubitState> {
+  final List<Todo> initialTodos;
   final TodoListCubit todoListCubit;
   final TodoFilterCubit todoFilterCubit;
   final TodoSearchCubit todoSearchCubit;
@@ -18,11 +19,12 @@ class FilteredTodoCubitCubit extends Cubit<FilteredTodoCubitState> {
   late final StreamSubscription todoFilterSubscription;
   late final StreamSubscription todoSearchSubscription;
 
-  FilteredTodoCubitCubit({
+  FilteredTodoCubit({
+    required this.initialTodos,
     required this.todoListCubit,
     required this.todoFilterCubit,
     required this.todoSearchCubit,
-  }) : super(FilteredTodoCubitState.initial()) {
+  }) : super(FilteredTodoCubitState(filteredTodos: initialTodos)) {
     todoListSubscription =
         todoListCubit.stream.listen((TodoListState todoListState) {
       setFilteredTodos();
@@ -61,7 +63,7 @@ class FilteredTodoCubitCubit extends Cubit<FilteredTodoCubitState> {
       filteredTodos = filteredTodos
           .where((Todo todo) => todo.desc
               .toLowerCase()
-              .contains(todoSearchCubit.state.searchTerm))
+              .contains(todoSearchCubit.state.searchTerm.toLowerCase()))
           .toList();
     }
     emit(state.copyWith(filteredTodos));
