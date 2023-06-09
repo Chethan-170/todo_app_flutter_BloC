@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app_flutter_bloc/cubit/active_todo_count/active_todo_count_cubit.dart';
 
 class TopHeader extends StatelessWidget {
   const TopHeader({super.key});
@@ -19,17 +17,13 @@ class TopHeader extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          BlocBuilder<ActiveTodoCountCubit, ActiveTodoCountState>(
-            builder: (context, state) {
-              return Text(
-                "${state.activeTodoCount} items left",
-                style: TextStyle(
-                  color: Colors.redAccent,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              );
-            },
+          Text(
+            "${0} items left",
+            style: TextStyle(
+              color: Colors.redAccent,
+              fontSize: 20.0,
+              fontWeight: FontWeight.w500,
+            ),
           )
         ],
       ),

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app_flutter_bloc/cubit/filtered_todo_cubit/filtered_todo_cubit_cubit.dart';
-import 'package:todo_app_flutter_bloc/cubit/todo_list/todo_list_cubit.dart';
 import 'package:todo_app_flutter_bloc/models/todo_model.dart';
 import 'package:todo_app_flutter_bloc/widgets/todo_item.dart';
 
@@ -10,8 +7,7 @@ class TodoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Todo> todos =
-        context.watch<FilteredTodoCubit>().state.filteredTodos;
+    final List<Todo> todos = [];
 
     return Expanded(
       child: ListView.separated(
@@ -26,9 +22,7 @@ class TodoList extends StatelessWidget {
             background: _showDismissibleBackground(0),
             secondaryBackground: _showDismissibleBackground(1),
             child: TodoItem(todo: todo),
-            onDismissed: (_) {
-              BlocProvider.of<TodoListCubit>(context).removeTodo(todo);
-            },
+            onDismissed: (_) {},
           );
         },
       ),
