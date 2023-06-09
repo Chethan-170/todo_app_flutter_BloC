@@ -25,23 +25,27 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ActiveTodoCountCubit>(
           create: (context) => ActiveTodoCountCubit(
-              initialActiveTodoCount:
-                  context.read<TodoListCubit>().state.todos.length,
-              todoListCubit: BlocProvider.of<TodoListCubit>(context)),
+            initialActiveTodoCount:
+                context.read<TodoListCubit>().state.todos.length,
+          ),
         ),
         BlocProvider<FilteredTodoCubit>(
           create: (context) => FilteredTodoCubit(
-              initialTodos: context.read<TodoListCubit>().state.todos,
-              todoListCubit: BlocProvider.of<TodoListCubit>(context),
-              todoFilterCubit: BlocProvider.of<TodoFilterCubit>(context),
-              todoSearchCubit: BlocProvider.of<TodoSearchCubit>(context)),
+            initialTodos: context.read<TodoListCubit>().state.todos,
+          ),
         ),
       ],
       child: MaterialApp(
         title: "Todo",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue),
-        home: TodoPage(),
+        home: BlocListener<TodoListCubit, TodoListState>(
+          listener: (context, state) {
+            int count = state.todos.where((todo) => !todo.completed).length;
+            context.read<ActiveTodoCountCubit>().setActiveTodoCount(count);
+          },
+          child: TodoPage(),
+        ),
       ),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app_flutter_bloc/cubit/filtered_todo_cubit/filtered_todo_cubit_cubit.dart';
 import 'package:todo_app_flutter_bloc/cubit/todo_filter/todo_filter_cubit.dart';
+import 'package:todo_app_flutter_bloc/cubit/todo_list/todo_list_cubit.dart';
 import 'package:todo_app_flutter_bloc/cubit/todo_search/todo_search_cubit.dart';
 import 'package:todo_app_flutter_bloc/models/debounce.dart';
 import 'package:todo_app_flutter_bloc/models/todo_model.dart';
@@ -30,7 +32,40 @@ class SearchFilterTodo extends StatelessWidget {
               });
             },
           ),
-          SizedBox(height: 6.0),
+          MultiBlocListener(
+            listeners: [
+              BlocListener<TodoListCubit, TodoListState>(
+                listener: (context, state) {
+                  context.read<FilteredTodoCubit>().setFilteredTodos(
+                        todos: state.todos,
+                        filter: context.read<TodoFilterCubit>().state.filter,
+                        searchTerm:
+                            context.read<TodoSearchCubit>().state.searchTerm,
+                      );
+                },
+              ),
+              BlocListener<TodoFilterCubit, TodoFilterState>(
+                listener: (context, state) {
+                  context.read<FilteredTodoCubit>().setFilteredTodos(
+                        todos: context.read<TodoListCubit>().state.todos,
+                        filter: state.filter,
+                        searchTerm:
+                            context.read<TodoSearchCubit>().state.searchTerm,
+                      );
+                },
+              ),
+              BlocListener<TodoSearchCubit, TodoSearchState>(
+                listener: (context, state) {
+                  context.read<FilteredTodoCubit>().setFilteredTodos(
+                        todos: context.read<TodoListCubit>().state.todos,
+                        filter: context.read<TodoFilterCubit>().state.filter,
+                        searchTerm: state.searchTerm,
+                      );
+                },
+              ),
+            ],
+            child: SizedBox(height: 6.0),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
