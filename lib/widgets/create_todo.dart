@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app_flutter_bloc/blocs/todo_list/todo_list_bloc.dart';
 
 class CreateTodo extends StatefulWidget {
   const CreateTodo({super.key});
@@ -16,7 +18,13 @@ class _CreateTodoState extends State<CreateTodo> {
       child: TextField(
         controller: todoTextFieldController,
         decoration: const InputDecoration(labelText: 'What to do?'),
-        onSubmitted: (value) {},
+        onSubmitted: (value) {
+          if (value != null && value.trim().isNotEmpty) {
+            BlocProvider.of<TodoListBloc>(context)
+                .add(AddTodoEvent(desc: value));
+            todoTextFieldController.clear();
+          }
+        },
       ),
     );
   }
